@@ -1,17 +1,17 @@
 /* eslint-disable no-undef */
 
 const todoList = require("../todo");
-const formattedDate = (d) => {
-  return d.toISOString().split("T")[0];
+const formattedDate = (date) => {
+  return date.toISOString().split("T")[0];
 };
 
-var dateToday = new Date();
-const today = formattedDate(dateToday);
+var todayDate = new Date();
+const today = formattedDate(todayDate);
 const yesterday = formattedDate(
-  new Date(new Date().setDate(dateToday.getDate() - 1))
+  new Date(new Date().setDate(todayDate.getDate() - 1))
 );
 const tomorrow = formattedDate(
-  new Date(new Date().setDate(dateToday.getDate() + 1))
+  new Date(new Date().setDate(todayDate.getDate() + 1))
 );
 const { all, markAsComplete, add, overdue, dueToday, dueLater } = todoList();
 
