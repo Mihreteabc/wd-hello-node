@@ -1,49 +1,54 @@
-const http = require("http");
-const fs = require("fs");
-
-let homeContent = "";
-let projectContent = "";
-let registration = "";
-
-fs.readFile("home.html", (err, home) => {
-  if (err) {
-    throw err;
-  }
-  homeContent = home;
-});
-
-fs.readFile("project.html", (err, project) => {
-  if (err) {
-    throw err;
-  }
-  projectContent = project;
-});
-fs.readFile("registration.html",
-(err,reg) => {
-    if(err)
-    {
-        throw err;
-    }
-    registration = reg;
-})
-let args=require("minimist")(process.argv.slice(2));
-http
-  .createServer((request, response) => {
-    let url = request.url;
-    response.writeHeader(200, { "Content-Type": "text/html" });
-    switch (url) {
-      case "./project":
-        response.write(projectContent);
-        response.end();
-        break;
-        case "/registration":
-            response.write(registration)
-            response.end();
-            break;
-      default:
-        response.write(homeContent);
-        response.end();
-        break;
-    }
-  })
-  .listen(args["port"]);
+const todoList = () => {
+	let all = [];
+	const formattedDate = (date) => {
+	  return date.toISOString().split("T")[0];
+	};
+  
+	var dateToday = new Date();
+	const today = formattedDate(dateToday);
+  
+	const add = (todoItem) => {
+	  all.push(todoItem);
+	};
+	const markAsComplete = (index) => {
+	  all[index].completed = true;
+	};
+  
+	const overdue = () => {
+	  let overdue_list = all.filter((item) => item.dueDate < today);
+	  return overdue_list;
+	};
+  
+	const dueToday = () => {
+	  let dueToday_list = all.filter((item) => item.dueDate === today);
+	  return dueToday_list;
+	};
+  
+	const dueLater = () => {
+	  let dueLater_list = all.filter((item) => item.dueDate > today);
+	  return dueLater_list;
+	};
+  
+	const toDisplayableList = (list) => {
+	  let display_list = list.map((item) => {
+		let completionStatus = item.completed ? "[x]": "[ ]";
+		let displayedDate = item.dueDate === today ? "" : item.dueDate;
+		return `${completionStatus} ${item.title} ${displayedDate}`.trim();
+	  });
+	  let output_string = display_list.join("\n");
+	  return output_string;
+	};
+  
+	return {
+	  all,
+	  add,
+	  markAsComplete,
+	  overdue,
+	  dueToday,
+	  dueLater,
+	  toDisplayableList,
+	};
+  };
+  
+  module.exports = todoList;
+  
