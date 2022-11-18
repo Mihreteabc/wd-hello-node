@@ -4,14 +4,15 @@ const todoList = () => {
       return date.toISOString().split("T")[0];
     };
   
-    var dateToday = new Date();
-    const today = formattedDate(dateToday);
-  
+    var todayDate = new Date();
+    const today = formattedDate(todayDate);
     const add = (todoItem) => {
       all.push(todoItem);
     };
+    
     const markAsComplete = (index) => {
       all[index].completed = true;
+        
     };
   
     const overdue = () => {
@@ -19,6 +20,8 @@ const todoList = () => {
       return overdue_list;
     };
   
+    
+    
     const dueToday = () => {
       let dueToday_list = all.filter((item) => item.dueDate === today);
       return dueToday_list;
@@ -29,6 +32,8 @@ const todoList = () => {
       return dueLater_list;
     };
   
+    
+    
     const toDisplayableList = (list) => {
       let display_list = list.map((item) => {
         let completionStatus = item.completed ? "[x]": "[ ]";
@@ -39,6 +44,8 @@ const todoList = () => {
       return output_string;
     };
   
+    
+    
     return {
       all,
       add,
