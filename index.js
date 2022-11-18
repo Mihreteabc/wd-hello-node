@@ -4,8 +4,8 @@ const todoList = () => {
 	  return date.toISOString().split("T")[0];
 	};
   
-	var dateToday = new Date();
-	const today = formattedDate(dateToday);
+	var todayDate = new Date();
+	const today = formattedDate(todayDate);
   
 	const add = (todoItem) => {
 	  all.push(todoItem);
@@ -31,14 +31,19 @@ const todoList = () => {
   
 	const toDisplayableList = (list) => {
 	  let display_list = list.map((item) => {
+		  
 		let completionStatus = item.completed ? "[x]": "[ ]";
 		let displayedDate = item.dueDate === today ? "" : item.dueDate;
 		return `${completionStatus} ${item.title} ${displayedDate}`.trim();
 	  });
+		
+		
 	  let output_string = display_list.join("\n");
 	  return output_string;
 	};
   
+	
+	
 	return {
 	  all,
 	  add,
